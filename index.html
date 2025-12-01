@@ -1,0 +1,650 @@
+<!-- FORMULÁRIO DE CADASTRO DE VOLUNTÁRIOS -->
+<!-- https://defesacivil-es.github.io/Cad-Voluntarios/ -->
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cadastro de Voluntários</title>
+
+  <style>
+    :root {
+      --cor-principal: #2B7A78;
+      --cor-secundaria: #DEF2F1;
+      --cor-clara: #FEFFFF;
+      --cor-escura: #17252A;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background-color: var(--cor-secundaria);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: flex-start;
+    }
+
+    /* -- inserir no <style> já existente -- */
+    .logo {
+      width: 100%;            /* ocupa toda a largura possível */
+      /*max-width: 220px;       /* mas não passa de 220px */
+      height: auto;           /* mantém a proporção */
+      display: block;
+      margin: 0 auto 12px;    /* centraliza e dá espaço abaixo */
+    }
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 8px;  /* espaço entre imagem e título */
+    }
+
+    .container {
+      background: var(--cor-clara);
+      border-radius: 12px;
+      padding: 25px 30px;
+      margin: 30px;
+      width: 100%;
+      max-width: 950px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--cor-escura);
+      margin-bottom: 20px;
+    }
+
+    fieldset {
+      border: 2px solid var(--cor-principal);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      padding: 15px 20px;
+    }
+
+    legend {
+      font-weight: bold;
+      color: var(--cor-principal);
+      padding: 0 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 7px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+
+    /* Chrome, Edge, Opera, Safari */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    button {
+      background-color: var(--cor-principal);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      /*width: 100%;*/
+      width: auto; /* <<< largura ajusta ao conteúdo */
+      display: inline-block; /* evita que ocupe 100% do espaço */
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #205f5d;
+    }
+
+    #saveToSheetButton {
+      background-color: #D2691E; /* laranja opaco */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      width: auto; /* <<< largura ajusta ao conteúdo */
+      display: inline-block; /* evita que ocupe 100% do espaço */
+    }
+
+    #saveToSheetButton:hover {
+      background-color: #B85C1A; /* tom ligeiramente mais escuro no hover */
+    }
+
+    #limpaToSheetButton {
+      background-color: #DC143C; /* vermelho */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      width: auto; /* <<< largura ajusta ao conteúdo */
+      display: inline-block; /* evita que ocupe 100% do espaço */
+    }
+
+    #limpaToSheetButton:hover {
+      background-color: #B22222; /* tom ligeiramente mais escuro no hover */
+    }
+
+    .full {
+      grid-column: 1 / -1; /* faz ocupar toda a linha */
+    }
+
+    .half {
+      grid-column: span 1;  /* ocupa metade */
+    }
+
+    .span-2 {
+      grid-column: span 2;
+      width: 100%;
+    }
+
+    .botoes-container {
+      display: flex;
+      justify-content: center; /* botões no centro */
+      align-items: center;
+      gap: 150px;          /* espaço entre os botões */
+      width: 100%; /* ocupa toda a largura disponível */
+      margin-top: 10px;
+    }
+
+    #tabelaDonativos {
+      width: 100%;  
+      max-width: 100%; 
+      box-sizing: border-box;
+      /* border-collapse: separate !important;  /* permite bordas arredondadas e força modo separado */
+      border-spacing: 0;          /* remove espaçamento entre células */
+      /*border: 2px solid #2B7A78;  /* azul petróleo */
+      /*border-radius: 14px;        /* arredonda o contorno da tabela */
+      overflow: hidden;           /* garante visual limpo */
+    }
+
+     #status {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .quantidade-container {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+    }
+
+    .unidade-label {
+     font-weight: bold;
+     color: var(--cor-escura);
+     white-space: nowrap;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      /*border: 1px solid #ccc;*/
+      border: 1px solid #2B7A78;
+      padding: 6px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    th {
+      background-color: #87CEEB; /* azul céu */
+      /*border: 2px solid #2B7A78; /* borda azul petróleo */
+      /*border-radius: 8px;        /* arredonda o contorno da tabela */
+      color: white;              /* mantém o texto branco para contraste */
+    }
+
+    .btnExcluir {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .btnExcluir:hover {
+      background-color: #922b21;
+    }
+
+    /* Reduz exatamente a altura do campo */
+    .choices {
+      width: 100% !important;       /* ocupa apenas a largura da coluna */
+      max-width: 100% !important;   /* impede que estoure para fora */
+      box-sizing: border-box !important;
+      margin-top: 4px !important;
+    }
+
+    /* Ajusta a caixa interna para a mesma altura dos outros inputs */
+    .choices__inner {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      border: 1px solid #ccc !important;
+      border-radius: 6px !important;
+      padding: 2px 7px !important;
+      min-height: 44px !important;   /* <<< ajuste principal */
+      height: auto !important;       /* <<< força a altura */
+      display: flex;
+      /* align-items: center;           /* centraliza o texto */
+      align-items: flex-start !important;
+      flex-wrap: wrap;
+    }
+
+    /* Ajusta o texto interno para não aumentar a altura */
+    .choices__inner .choices__item {
+      padding: 0 !important;
+      margin: 0 !important;
+      font-size: 14px !important;
+      line-height: 1.2 !important;   /* <<< evita expansão vertical */
+    }
+
+    /* Remove espaço extra no modo single */
+    .choices__list--single {
+      padding: 0 !important;
+    }
+
+    /* Dropdown com altura normal */
+    .choices__list--dropdown {
+      border-radius: 6px !important;
+      border: 1px solid #ccc !important;
+      margin-top: 2px !important;
+    }
+
+    @media (min-width: 700px) {
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px 20px;
+      }
+    }
+
+    @media print {
+      /* Ocultar botões */
+      button, .sem-imprimir {
+      display: none !important;
+      }
+
+      /* Ajustar largura da página */
+      body {
+        margin: 20px;
+        font-size: 14px;
+      }
+    }
+
+    @media print {
+      .no-print {
+      display: none !important;
+      }
+
+      /* Opcional — esconder também todos os botões */
+      /*button { */
+      /*display: none !important;*/
+      /*}*/
+    }    
+
+    /* === CONTAINER PRINCIPAL === */
+    .choices, #itensSelect, #itensSelect + .choices {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: visible !important;
+    }
+
+    /* Área interna ajustável */
+    .choices__inner {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      padding: 8px !important;
+      min-height: 44px !important;
+      height: auto !important;
+    }
+
+    /* === GRID DAS TAGS (4 POR LINHA) === */
+    .choices__list--multiple {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 8px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Aparência das tags */
+    .choices__list--multiple .choices__item {
+      width: 100% !important;
+      text-align: center !important;
+      margin: 0 !important;
+      padding: 4px 8px !important;
+      font-size: 13px !important;
+      border-radius: 6px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* === CENTRALIZAÇÃO DO PLACEHOLDER REAL === */
+    .choices[data-type*="select-multiple"] 
+    .choices__list--single 
+    .choices__placeholder {
+      width: 100% !important;
+      text-align: center !important;
+      display: block !important;
+      margin: 0 auto !important;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="logo-wrap">
+      <img src="Cabeçalho CEPDEC.PNG" alt="Logo da CepDec" class="logo">
+    </div>
+
+    <h2>Cadastro de Voluntários</h2>
+
+    <form id="formVoluntarios">
+      <fieldset>
+        <legend>Identificação do Voluntário</legend>
+        <div class="grid-3">
+
+          <label>Nome do Voluntário <input type="text" name="nomeVoluntario" required style="text-transform: uppercase;"></label>
+
+          <label>CPF
+            <input id="cpf" name="cpf"
+                   type="text"
+                   required
+                   maxlength="14"
+                   inputmode="numeric"
+                   placeholder="000.000.000-00">
+          </label>
+          <label>Telefone
+            <input id="telefone" name="telefone"
+                   type="text"
+                   required
+                   maxlength="15"
+                   inputmode="numeric"
+                   placeholder="00 00000-0000">
+          </label>
+          <label>E-mail <input type="email" name="email" required></label>
+          <label>Município
+            <select id="municipioSelect" name="municipio" required>
+              <option value="" disabled selected>Carregando municípios...</option>     
+            </select>      
+          </label>
+          <label>Grau de Instrução
+            <select id="grauSelect" name="grau" required>
+              <option value="" disabled selected>Carregando grau de instrução...</option>     
+            </select>      
+          </label>
+          <label>Formação
+            <select id="formacaoSelect" name="formacao" required>
+              <option value="" disabled selected>Carregando formação...</option>     
+            </select>      
+          </label>
+          <label class = "span-2">Trabalho Voluntário Oferecido <input type="text" name="trabalhoOferecido" required></label>
+          <label class = "full">Itens que Disponibiliza para o Serviço Voluntário
+            <select id="itensSelect" name="itens" multiple>
+              <option value="" disabled selected>Carregando itens...</option>     
+            </select>      
+          </label>
+          <label class = "full">Informações Complementares <input type="text" name="informacao" ></label>
+
+        </div>
+      </fieldset>
+
+      <div class="botoes-container">
+        <button type="button" id="saveToSheetButton" >Registrar Voluntário</button>
+        <button type="button" id="limpaToSheetButton" onclick="limparFormulario()" >Limpar Formulário</button>
+      </div>
+
+      <div id="status" class="message"></div>
+
+    </form>
+
+  </div>
+
+<script>
+  const appScriptUrl = 'https://script.google.com/macros/s/AKfycbyHfRkN-yAvFPHDnn4n83gCPftr0fkY4EJfPt6OoT-7pEkgqgMw2VwBHgUv4NHixJdj/exec';
+  let lookupData = {};
+
+  const form = document.getElementById('formVoluntarios');
+  const saveBtn = document.getElementById('saveToSheetButton');
+  const statusArea = document.getElementById('status');
+
+
+  const cpfInput = document.getElementById('cpf');
+  cpfInput.addEventListener('input', function () {
+    // Remove tudo que não for número
+    let valor = this.value.replace(/\D/g, '');
+
+    // Limita a 11 dígitos
+    valor = valor.substring(0, 11);
+
+    // Aplica a máscara
+    if (valor.length > 9) {
+      valor = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    } else if (valor.length > 6) {
+      valor = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+    } else if (valor.length > 3) {
+      valor = valor.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+    }
+
+    this.value = valor;
+  });
+
+  const telInput = document.getElementById('telefone');
+  telInput.addEventListener('input', function () {
+    // Remove tudo que não for número
+    let valor = this.value.replace(/\D/g, '');
+
+    // Limita a 11 dígitos
+    valor = valor.substring(0, 11);
+
+    // Aplica a máscara
+    if (valor.length > 6) {
+      // Formato celular: 00 00000-0000
+      valor = valor.replace(/(\d{2})(\d{5})(\d{4})/, "$1 $2-$3");
+    } else if (valor.length > 2) {
+      // Início do formato fixo: 00 0000-0000
+      valor = valor.replace(/(\d{2})(\d{1,4})/, "$1 $2");
+    }
+
+    this.value = valor;
+  });
+
+
+  // ⭐ ADICIONADO — instância global do Choices
+  let itensChoices = null;
+
+  async function fetchLookupData() {
+    const lookupUrl = `${appScriptUrl}?action=lookup`;
+
+    try {
+      const res = await fetch(lookupUrl);
+      const json = await res.json();
+      const data = json.data || json;
+
+      lookupData = data;
+
+      if (document.getElementById('municipioSelect'))
+        populateSelect(document.getElementById('municipioSelect'), lookupData.municipio || []);
+
+      if (document.getElementById('grauSelect'))
+        populateSelect(document.getElementById('grauSelect'), lookupData.grau || []);
+
+      if (document.getElementById('formacaoSelect'))
+        populateSelect(document.getElementById('formacaoSelect'), lookupData.formacao || []);
+
+      //if (document.getElementById('itensSelect'))
+      //  populateSelect(document.getElementById('itensSelect'), lookupData.itens || []);
+
+      // ⭐ ALTERADO – Agora NÃO usa populateSelect() no itensSelect
+      if (document.getElementById('itensSelect')) {
+
+        // Ativar Choices APENAS 1 vez
+        itensChoices = new Choices('#itensSelect', {
+          removeItemButton: true,
+          searchPlaceholderValue: "Buscar item...",
+          placeholderValue: "Selecione os itens...",
+          noResultsText: "Nenhum item encontrado",
+          itemSelectText: "",
+        });
+
+        // ⭐ FECHAR DROPDOWN APÓS CADA SELEÇÃO
+        document.querySelector('#itensSelect').addEventListener('change', () => {
+          itensChoices.hideDropdown();
+        });
+
+        // ⭐ MOSTRAR DROPDOWN AO CLICAR NO CAMPO
+        const container = document.querySelector('#itensSelect').closest('.choices');
+        container.addEventListener('click', () => {
+          itensChoices.showDropdown();
+        });
+
+        // ⭐ ADICIONADO — carregar itens direto no Choices
+        populateSelectChoices(itensChoices, lookupData.itens || []);
+      }      
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function populateSelect(select, items){
+    
+    // Se o select for múltiplo, NÃO usar uma opção "Selecione..."
+    if (select.multiple) {
+      select.innerHTML = '';  // limpa tudo
+    } else {
+      // select normal → OK manter placeholder
+      select.innerHTML = '<option value="" disabled selected>Selecione...</option>';
+    }
+
+    items.forEach(i => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+      select.appendChild(opt);
+    });
+  }
+
+  // ⭐ ADICIONADO – Função apropriada para Choices.js
+  function populateSelectChoices(choicesInstance, items) {
+    const list = items.map(i => ({ value: i, label: i }));
+    choicesInstance.clearStore();
+    choicesInstance.setChoices(list, 'value', 'label', true);
+  }
+
+  // 🔹 Agora NÃO é mais lote — salva 1 registro por vez
+  saveBtn.addEventListener('click', async () => {
+
+    // 🔸 Validação automática dos campos required
+    if (!form.checkValidity()) {
+      form.reportValidity(); // mostra os erros na tela
+      return; // interrompe o envio
+    }
+
+    statusArea.textContent = "Salvando Registro de Voluntário...";
+    saveBtn.disabled = true;
+
+    try {
+      const formData = new FormData(form);
+
+      // força nome em maiúsculas
+      formData.set('nomeVoluntario',
+        formData.get('nomeVoluntario').toUpperCase()
+      );
+
+      // obter selecionados
+      //const itensSelecionados = [...document.getElementById('itensSelect').selectedOptions]
+      //  .map(o => o.value);
+
+      // ⭐ ALTERADO — capturar itens do Choices
+      const itensSelecionados = itensChoices.getValue(true); 
+
+      // salvar como string separada por vírgula
+      formData.set('itens', itensSelecionados.join(", "));
+
+      // 🔸 Envio de Dados para o Apps Script que precisa identificar a ação:
+      formData.append('action', 'saveOne');
+
+      const response = await fetch(appScriptUrl, {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'SUCCESS') {
+        statusArea.textContent = "✅ Registro salvo!";
+        setTimeout(() => { statusArea.textContent = ""; }, 3000);
+      } else {
+        statusArea.textContent = "⚠️ Erro: " + result.message;
+        setTimeout(() => { statusArea.textContent = ""; }, 7000);
+      }
+
+    } catch (err) {
+      statusArea.textContent = "❌ Falha: " + err.message;
+    }
+
+    finally {
+      saveBtn.disabled = false;
+    }
+
+    form.reset();
+
+    // ⭐ ADICIONADO — limpar visual do Choices também
+    if (itensChoices) itensChoices.removeActiveItems();
+
+  });
+
+  function limparFormulario() {
+    // 1. Limpa todos os campos <input> e <select>
+    const form = document.querySelector('form'); // Supondo que seus campos estejam dentro de uma tag <form>
+    if (form) {
+        form.reset(); // Método nativo que limpa a maioria dos campos do formulário
+    }
+
+    // ⭐ ADICIONADO — limpar Choices
+    if (itensChoices) itensChoices.removeActiveItems();
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchLookupData);
+
+</script>
+
+</body>
+
+</html>
+
+
+
