@@ -417,7 +417,17 @@
             </select>      
           </label>
 
-          <label>Outro Trabalho <input type="text" name="outroTrabalho" ></label>
+          <label>Outro Trabalho Oferecido<input type="text" id="outroTrabalhoInput" name="outroTrabalho" required disabled></label>
+
+          <label>É Servidor Estadual?
+            <select id="servidorEstadualSelect" name="servidorEstadual" required>
+              <option value="" disabled selected>Selecione...</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>      
+          </label>
+
+          <label class = "span-2">Nome do Órgão Estadual <input type="text" id="orgaoEstadualInput" name="orgaoEstadual" required disabled></label>
 
           <label class = "full">Itens que Disponibiliza para o Serviço Voluntário
             <select id="itensSelect" name="itens" multiple>
@@ -441,7 +451,7 @@
   </div>
 
 <script>
-  const appScriptUrl = 'https://script.google.com/macros/s/AKfycbzbEesiJ1JNdR8uG2J8wSsJRrZvCCgLglqzq3H6zQWQQP4taMQERp1Zx6seVqkUuarh/exec';
+  const appScriptUrl = 'https://script.google.com/macros/s/AKfycbxuEhMLRjCve-IJCKNZ925CplWxhFzjy2CKFZP0TAwBIpXNnFqPDABVa4uGw-XE0-TE/exec';
   let lookupData = {};
 
   const form = document.getElementById('formVoluntarios');
@@ -489,6 +499,33 @@
     this.value = valor;
   });
 
+  const servidorEstadualSelect = document.getElementById('servidorEstadualSelect');
+  const orgaoEstadualInput = document.getElementById('orgaoEstadualInput');
+
+  servidorEstadualSelect.addEventListener('change', function () {
+    if (this.value === 'Sim') {
+      orgaoEstadualInput.disabled = false;
+      orgaoEstadualInput.required = true;
+    } else {
+      orgaoEstadualInput.disabled = true;
+      orgaoEstadualInput.value = '';
+      orgaoEstadualInput.required = false;
+    }
+  });
+
+  const trabalhoOferecidoSelect = document.getElementById('trabalhoOferecidoSelect');
+  const outroTrabalhoInput = document.getElementById('outroTrabalhoInput');
+
+  trabalhoOferecidoSelect.addEventListener('change', function () {
+    if (this.value === 'Outro (informar no campo ao lado)') {
+      outroTrabalhoInput.disabled = false;
+      outroTrabalhoInput.required = true;
+    } else {
+      outroTrabalhoInput.disabled = true;
+      outroTrabalhoInput.value = '';
+      outroTrabalhoInput.required = false;
+    }
+  });
 
   // ⭐ ADICIONADO — instância global do Choices
   let itensChoices = null;
@@ -525,7 +562,7 @@
         itensChoices = new Choices('#itensSelect', {
           removeItemButton: true,
           searchPlaceholderValue: "Buscar item...",
-          placeholderValue: "Selecione os itens...",
+          placeholderValue: "Selecione...",
           noResultsText: "Nenhum item encontrado",
           itemSelectText: "",
         });
@@ -656,4 +693,6 @@
 </body>
 
 </html>
+
+
 
