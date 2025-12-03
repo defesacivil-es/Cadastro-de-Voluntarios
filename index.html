@@ -360,6 +360,15 @@
       margin: 0 auto !important;
     }
 
+    /* Cor de fundo dos campos desabilitados */
+    input:disabled,
+    select:disabled,
+    textarea:disabled {
+      background-color: #e0e0e0; /* cinza mais escuro */
+      color: #555;              /* texto mais apagado */
+      cursor: not-allowed;      /* cursor de campo bloqueado */
+    }
+   
   </style>
 
 </head>
@@ -695,6 +704,7 @@
 </body>
 
 </html>
+
 
 
 
