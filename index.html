@@ -475,7 +475,7 @@
   </div>
 
 <script>
-  const appScriptUrl = 'https://script.google.com/macros/s/AKfycbxYU9l4ghiKxAwyWQ9GLY_9d7sfrZT-0lNo5v1WwbeSPHuMnuiD7fPUuIzKy0tOAMdd/exec';
+  const appScriptUrl = 'https://script.google.com/macros/s/AKfycbxxwfw_aZuszhe1EnetdG6E-lEUAFMvp9hEdiR320SlNa3TDuKt4xyqNaQeRfEgv6fR/exec';
   let lookupData = {};
 
   const form = document.getElementById('formVoluntarios');
@@ -668,6 +668,8 @@
 
       // 🔸 Envio de Dados para o Apps Script que precisa identificar a ação:
       formData.append('action', 'saveOne');
+      formData.append('token', 'SEU_TOKEN_SUPER_SECRETO_123');
+      formData.append('referer', window.location.hostname);      
 
       const response = await fetch(appScriptUrl, {
         method: "POST",
