@@ -696,7 +696,7 @@
       const result = await response.json();
 
       if (result.status === 'SUCCESS') {
-        statusArea.textContent = "✅ Registro salvo!";
+        statusArea.textContent = "✅ Registro salvo com sucesso!";
         setTimeout(() => { statusArea.textContent = ""; }, 2000);
       } else {
         statusArea.textContent = "⚠️ Erro: " + result.message;
