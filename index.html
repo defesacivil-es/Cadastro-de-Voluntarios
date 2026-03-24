@@ -663,6 +663,7 @@
     }
 
     statusArea.textContent = "Salvando Registro de Voluntário...";
+    statusArea.style.display = "block";    
     saveBtn.disabled = true;
 
     try {
@@ -697,14 +698,17 @@
 
       if (result.status === 'SUCCESS') {
         statusArea.textContent = "✅ Registro salvo com sucesso!";
-        setTimeout(() => { statusArea.textContent = ""; }, 2000);
+        statusArea.style.display = "block";
+        setTimeout(() => { statusArea.style.display = "none"; statusArea.textContent = ""; }, 2000);
       } else {
         statusArea.textContent = "⚠️ Erro: " + result.message;
-        setTimeout(() => { statusArea.textContent = ""; }, 7000);
+        statusArea.style.display = "block" + result.message;
+        setTimeout(() => { statusArea.style.display = "none"; statusArea.textContent = ""; }, 7000);
       }
 
     } catch (err) {
       statusArea.textContent = "❌ Falha: " + err.message;
+      statusArea.style.display = "block";      
     }
 
     finally {
