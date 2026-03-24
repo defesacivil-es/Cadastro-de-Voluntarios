@@ -762,8 +762,18 @@
 
     // ⭐ ADICIONADO — limpar Choices
     if (itensChoices) itensChoices.removeActiveItems();
+
+    voltarAoTopo()
+    
   }
 
+  function voltarAoTopo() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+  
   document.addEventListener("DOMContentLoaded", fetchLookupData);
 
 </script>
