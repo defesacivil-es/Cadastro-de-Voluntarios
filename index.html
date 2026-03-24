@@ -368,7 +368,26 @@
       color: #555;              /* texto mais apagado */
       cursor: not-allowed;      /* cursor de campo bloqueado */
     }
-   
+
+    .message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  
+      background: #ffffff;
+      color: #E74C3C;
+      padding: 16px 24px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  
+      z-index: 9999;
+      max-width: 400px;
+      text-align: center;
+
+      display: none; /* começa escondido */
+    }
+    
   </style>
 
 </head>
